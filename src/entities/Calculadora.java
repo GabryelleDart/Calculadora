@@ -32,6 +32,11 @@ public class Calculadora {
 
     JPanel buttonsPanel = new JPanel();
 
+    String nm1="0";
+    String op=null;
+    String nm2="0";
+
+
     public Calculadora(){
         frame.setVisible(true);
         frame.setSize(boardWidth,boardHeight);
@@ -62,6 +67,9 @@ public class Calculadora {
             button.setFont(new Font("Arial",Font.PLAIN,30));
             button.setText(buttonValue);
             button.setFocusable(false);
+            button.setBorder(new LineBorder(Lightpink));
+            
+
             if(Arrays.asList(topSymbols).contains(buttonValue)){
                 button.setBackground(Ciano);
                 button.setForeground(White);
@@ -73,8 +81,71 @@ public class Calculadora {
                 button.setForeground(White);
             }
             buttonsPanel.add(button);
+
+            button.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    JButton button =(JButton) e.getSource();
+                    String buttonValue = button.getText();
+                    if (Arrays.asList(rightSymbols).contains(buttonValue)){
+                        if (buttonValue == "=") {
+                    
+                        }else if("/*-+".contains(buttonValue)){
+                            if(op==null){
+                                
+                            }
+                        }else{
+
+                        }
+                    }else if (Arrays.asList(topSymbols).contains(buttonValue)){
+                        if (buttonValue == "C") {
+                            clearAll();
+                            displayLabel.setText("0");
+                            
+                        }else if(buttonValue == "()"){
+                            //procurar como fazer
+
+                        }else if(buttonValue == "%"){
+                            double numDisplay =Double.parseDouble(displayLabel.getText());
+                            numDisplay /= 100;
+                            displayLabel.setText(remove0decimal(numDisplay));
+
+                        }
+                    }else {
+                        if(buttonValue == "."){
+                            if(displayLabel.getText().contains(buttonValue)){
+                                displayLabel.setText(displayLabel.getText() + buttonValue);   
+                            //deu erro
+                            }
+
+                        }else if("0123456789".contains(buttonValue)){
+                            if (displayLabel.getText()=="0"){
+                                displayLabel.setText(buttonValue);
+
+                            }else{
+                                displayLabel.setText(displayLabel.getText()+buttonValue);
+                            }
+                        }else{
+                            //case +/-
+                            double numDisplay =Double.parseDouble(displayLabel.getText());
+                            numDisplay*= -1;
+                            displayLabel.setText(remove0decimal(numDisplay));
+                        }
+
+                    }
+                }
+            });
         }
     }
-
+    void clearAll(){
+        nm1 ="0";
+        op= null;
+        nm2="0";
+    }
+    String remove0decimal(double numDisplay){
+        if(numDisplay %1 == 0){
+            return Integer.toString((int) numDisplay);
+        }
+        return Double.toString(numDisplay);
+    }
     
 }
